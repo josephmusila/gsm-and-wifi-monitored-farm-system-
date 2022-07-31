@@ -1,5 +1,5 @@
 
-
+// good news
 
 /*~SMART FARM MONITORING SYSTEM
  * 
@@ -15,12 +15,13 @@
 
 
 #define alertsignal 13
-#define redalertsignal 7//to alert the humidity has gone above the epected value
-#define motor 8 
+//#define redalertsignal 7//to alert the humidity has gone above the epected value
+
+#define motor 5
 #define fan 9
 #define pump 6
 
-#define photocellpin A0
+#define photocellpin A5
 
 int photocellvalue=0;
 
@@ -29,12 +30,14 @@ int photocellvalue=0;
 int waterLevel = 0;
 
 //soil moisture
-#define soilSensorPower 8
+#define soilSensorPower 2
 #define soilSensorPin A2
 #define DHTTYPE DHT11
 #define DHT11_PIN 4
 #include "DHT.h"
-
+#define tempPin A0
+int sensorInput; //The variable we will use to store the sensor input
+double temp; //The variable we will use to store temperature in degrees.
 #define DHTPIN 1     // Digital pin connected to the DHT sensor
 
 #define DHTTYPE DHT11
@@ -61,7 +64,7 @@ void setup()
   pinMode(soilSensorPower,OUTPUT);
   Serial.begin(9600);
   Serial.println();
-   dht.begin();
+  dht.begin();
 
 
 
@@ -77,20 +80,20 @@ void setup()
 void loop()
 {
 
-    startFan();
+   startFan();
   
   
   getTemperatureAndHumidity();
    //output water level in tanks
   Serial.print("water level :");
   Serial.print(getWaterLevel());
-  Serial.println("\t\%");
+  Serial.println("\t\% ");
        
 
     if(getWaterLevel() <20){
-      startPump();
+//      startPump();
     }else{
-      stopPump();
+//      stopPump();
     }
 
     
@@ -100,16 +103,16 @@ void loop()
   Serial.print("Soil Moisture value :");
   Serial.println(readSoilSensor());
   
-/*
+
   
 
   //get Light Intensity in the greenHouse
-    // photocell();
-    // startPump();
-  
-//  Serial.println("-------------------------------------------------------");
+     photocell();
+    startPump();
+    getTemperature();
+   Serial.println("-------------------------------------------------------");
  
-  */
+                           
 
 }
 
@@ -144,7 +147,7 @@ void getTemperatureAndHumidity(){
   Serial.print(f);
   Serial.print(F("°F  Heat index: "));
   Serial.print(hic);
-  Serial.print(F("°C "));
+  Serial.print(F("°C "));                                   
   Serial.print(hif);
   Serial.println(F("°F"));
   
@@ -153,6 +156,19 @@ void getTemperatureAndHumidity(){
 /*
  * connecting to thingsSPeak.com
  */
+
+
+void getTemperature(){
+//  
+//   sensorInput = analogRead(A0); 
+//temp = (double)sensorInput / 1024; 
+//temp = temp * 5; 
+//temp = temp – 0.5; 
+//temp = temp * 100; 
+//
+//Serial.print("Current Temperature: ");
+//Serial.println(temp);
+}
 
  void photocell(){
   
